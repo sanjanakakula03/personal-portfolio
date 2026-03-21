@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="en" class="h-full" style="scroll-behavior:smooth;">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Analyst Portfolio</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet">
+  <script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: {
+        sora: ['Sora', 'sans-serif'],
+        dm: ['DM Sans', 'sans-serif'],
+      }
+    }
+  }
+}
+</script>
+  <style>
+html, body { height: 100%; margin: 0; }
+* { box-sizing: border-box; }
+
+:root {
+  --bg: #f8f7f4;
+  --surface: #ffffff;
+  --text: #1a1a2e;
+  --accent: #e85d04;
+  --accent2: #6c63ff;
+  --muted: #64748b;
+  --border: #e2e0dc;
+  --glass: rgba(255,255,255,0.7);
+  --nav-bg: rgba(248,247,244,0.85);
+}
+
+.dark-vars {
+  --bg: #0f0f1a;
+  --surface: #1a1a2e;
+  --text: #e8e6e3;
+  --accent: #ff7b00;
+  --accent2: #8b83ff;
+  --muted: #94a3b8;
+  --border: #2a2a40;
+  --glass: rgba(15,15,26,0.7);
+  --nav-bg: rgba(15,15,26,0.85);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.5s ease, color 0.5s ease;
+  line-height: 1.8;
+}
+
+.font-heading { font-family: 'Sora', sans-serif; }
+
+.dark-vars .font-heading { color: #ffffff; }
+.dark-vars #heroName { color: #ffffff; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.anim-fade-up { animation: fadeUp 0.7s ease forwards; }
+.anim-slide-right { animation: slideRight 0.7s ease forwards; }
+.anim-float { animation: float 3s ease-in-out infinite; }
+
+.observe-anim { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
+.observe-anim.visible { opacity: 1; transform: translateY(0); }
+
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.4s; }
+.stagger-5 { transition-delay: 0.5s; }
+.stagger-6 { transition-delay: 0.6s; }
+
+/* Nav */
+.nav-bar {
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.4s ease;
+}
+.nav-link {
+  color: var(--muted);
+  position: relative;
+  transition: color 0.3s ease;
+}
+.nav-link:hover, .nav-link.active { color: var(--accent); }
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+/* Cards & Surfaces */
+.card-surface {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: all 0.4s ease;
+}
+.card-surface:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+}
+
+/* Skill card */
+.skill-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: all 0.4s ease;
+  cursor: default;
+}
+.skill-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(232,93,4,0.12);
+}
+.skill-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  transition: transform 0.3s ease;
+}
+.skill-card:hover .skill-icon { transform: scale(1.15) rotate(5deg); }
+
+/* Timeline */
+.timeline-line {
+  position: absolute;
+  left: 23px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), var(--accent2));
+}
+.timeline-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  position: absolute;
+  left: 18px;
+  top: 6px;
+  z-index: 2;
+}
+.timeline-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  animation: pulse-ring 2s ease infinite;
+}
+
+/* Project card */
+.project-card-wrapper {
+  cursor: default;
+  height: auto;
+}
+.project-card-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--accent2), var(--accent));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.btn-primary:hover::before { opacity: 1; }
+.btn-primary span { position: relative; z-index: 1; }
+
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  transition: all 0.3s ease;
+}
+.btn-outline:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* Theme toggle */
+.theme-toggle {
+  width: 52px; height: 28px;
+  border-radius: 14px;
+  background: var(--border);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.theme-toggle-knob {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  position: absolute;
+  top: 3px; left: 3px;
+  transition: transform 0.3s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.dark-vars .theme-toggle-knob { transform: translateX(24px); }
+
+/* Section */
+.section-title {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+.dark-vars .section-title { color: #ffffff; }
+.section-title::after {
+  content: '';
+  display: block;
+  width: 50px; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  margin-top: 8px;
+  border-radius: 2px;
+}
+
+/* Hero gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero illustration */
+.hero-illustration {
+  position: relative;
+  width: 280px; height: 280px;
+}
+.hero-blob {
+  width: 100%; height: 100%;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  background: url("images/illustration.jpg") center/contain no-repeat;
+  opacity: 0.9;
+  animation: float 4s ease-in-out infinite;
+}
+.hero-icon-float {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+/* Achievement badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+.dark-vars .badge {
+  color: var(--text);
+}
+.badge:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* Contact form */
+.form-input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  transition: all 0.3s ease;
+  outline: none;
+}
+.form-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(232,93,4,0.1);
+}
+
+/* Social icon */
+.social-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition: all 0.3s ease;
+}
+.social-icon:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* Mobile menu */
+.mobile-menu {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transform: translateY(-10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+.mobile-menu.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .hero-illustration { width: 200px; height: 200px; }
+  .timeline-line { left: 15px; }
+  .timeline-dot { left: 10px; }
+}
+
+#app-root {
+  scroll-behavior: smooth;
+}
+</style>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full">
+  <div id="app-root" class="w-full h-full overflow-auto" style="background: var(--bg);"><!-- Navigation -->
+   <nav class="nav-bar fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between"><a href="#hero" class="font-heading font-bold text-lg" style="color: var(--accent);" id="nav-logo">SK</a>
+     <div class="hidden md:flex items-center gap-6"><a href="#about" class="nav-link text-sm font-medium">About</a> <a href="#projects" class="nav-link text-sm font-medium">Projects</a> <a href="#education" class="nav-link text-sm font-medium">Education</a> <a href="#experience" class="nav-link text-sm font-medium">Experience</a> <a href="#skills" class="nav-link text-sm font-medium">Skills</a> <a href="#achievements" class="nav-link text-sm font-medium">Achievements</a> <a href="#contact" class="nav-link text-sm font-medium">Contact</a>
+     </div>
+     <div class="flex items-center gap-3">
+      <div class="theme-toggle" id="themeToggle" role="button" aria-label="Toggle theme" tabindex="0">
+       <div class="theme-toggle-knob"><i data-lucide="sun" style="width:14px;height:14px;color:white;" id="theme-sun"></i> <i data-lucide="moon" style="width:14px;height:14px;color:white;display:none;" id="theme-moon"></i>
+       </div>
+      </div><button class="md:hidden p-2" id="mobileMenuBtn" aria-label="Menu" style="color: var(--text);"> <i data-lucide="menu" style="width:22px;height:22px;"></i> </button>
+     </div>
+    </div><!-- Mobile Menu -->
+    <div class="mobile-menu md:hidden absolute top-full left-4 right-4 rounded-xl p-4 flex flex-col gap-3" id="mobileMenu"><a href="#about" class="nav-link text-sm font-medium mobile-nav-link">About</a> <a href="#skills" class="nav-link text-sm font-medium mobile-nav-link">Skills</a> <a href="#education" class="nav-link text-sm font-medium mobile-nav-link">Education</a> <a href="#experience" class="nav-link text-sm font-medium mobile-nav-link">Experience</a> <a href="#projects" class="nav-link text-sm font-medium mobile-nav-link">Projects</a> <a href="#achievements" class="nav-link text-sm font-medium mobile-nav-link">Achievements</a> <a href="#contact" class="nav-link text-sm font-medium mobile-nav-link">Contact</a>
+    </div>
+   </nav><!-- Hero Section -->
+   <section id="hero" class="pt-24 pb-16 sm:pt-32 sm:pb-24 px-4 sm:px-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-4 md:gap-8">
+     <div class="w-full md:w-1/2 text-center md:text-left">
+      <p class="text-sm font-medium tracking-wider uppercase anim-fade-up" style="color: var(--accent); animation-delay: 0.1s;"></p>
+      <h1 class="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl mt-2 anim-fade-up" id="heroName" style="animation-delay: 0.2s;">Sanjana Kakula</h1>
+      <p class="gradient-text font-heading font-semibold text-xl sm:text-2xl mt-2 anim-fade-up" id="heroTitle" style="animation-delay: 0.3s;">Product Management | BITS Pilani</p>
+      <p class="mt-4 text-base sm:text-lg max-w-lg mx-auto md:mx-0 anim-fade-up" id="heroTagline" style="color: var(--muted); animation-delay: 0.4s;"></p>
+      <div class="flex flex-wrap gap-3 mt-8 justify-center md:justify-start anim-fade-up" style="animation-delay: 0.5s;"><a href="#contact" class="btn-primary px-6 py-3 rounded-xl font-medium text-sm"><span class="flex items-center gap-2"><i data-lucide="mail" style="width:16px;height:16px;"></i> Get in Touch</span></a> <a href="https://drive.google.com/file/d/1NkYPKZ5yctQAZs5i3zYB7LpuaVaCmos4/view?usp=sharing" class="btn-outline px-6 py-3 rounded-xl font-medium text-sm flex items-center gap-2" target="_blank" rel="noopener noreferrer"><i data-lucide="file-text" style="width:16px;height:16px;"></i> Resume</a> <a href="https://in.linkedin.com/in/sanjana-kakula-b3375b327" class="btn-outline px-6 py-3 rounded-xl font-medium text-sm flex items-center gap-2" target="_blank" rel="noopener noreferrer"><i data-lucide="linkedin" style="width:16px;height:16px;"></i> LinkedIn</a>
+      </div>
+     </div>
+     <div class="w-full md:w-1/2 flex justify-center anim-fade-up" style="animation-delay: 0.6s;">
+      <div class="hero-illustration">
+       <div class="hero-blob"></div>
+       <div class="hero-icon-float anim-float" style="top: 10%; right: -10%; animation-delay: 0s;"><i data-lucide="bar-chart-2" style="width:24px;height:24px;color:var(--accent);"></i>
+       </div>
+       <div class="hero-icon-float anim-float" style="bottom: 15%; left: -10%; animation-delay: 0.5s;"><i data-lucide="trending-up" style="width:24px;height:24px;color:var(--accent2);"></i>
+       </div>
+       <div class="hero-icon-float anim-float" style="top: 50%; right: -20%; animation-delay: 1s;"><i data-lucide="database" style="width:24px;height:24px;color:var(--accent);"></i>
+       </div>
+       <div class="hero-icon-float anim-float" style="top: -5%; left: 20%; animation-delay: 1.5s;"><i data-lucide="lightbulb" style="width:24px;height:24px;color:var(--accent2);"></i>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- About Section -->
+   <section id="about" class="py-16 sm:py-24 px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto text-center">
+     <h2 class="section-title text-2xl sm:text-3xl observe-anim">About Me</h2>
+     <div class="mt-8 flex justify-center">
+      <div class="max-w-2xl text-center observe-anim stagger-1">
+       <p class="text-base leading-relaxed" id="aboutText" style="color: var(--muted);">Hi, I’m Sanjana, an undergrad at BITS Pilani.  I’ve always loved the right aesthetics and a strong vision for how products should feel like…. 
+
+borderline obsession with perfection not just visually but in how things actually work 
+
+This obsession turned me into a product enthusiast!  
+
+A role that lets me blend creativity, build structure and execute. I love turning ideas into reality, storytelling or just yapping on linkedIn.  
+
+If you are into creative solutions and always curious, you’re in the right place. Lets connect and create something amazing together. </p>
+       <div class="flex flex-wrap gap-3 mt-6 justify-center">
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Projects Section -->
+   <section id="projects" class="py-16 sm:py-24 px-4 sm:px-6">
+    <div class="max-w-5xl mx-auto">
+     <h2 class="section-title text-2xl sm:text-3xl observe-anim">Projects</h2>
+     <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="projectsGrid">
+     </div>
+    </div>
+   </section><!-- Education Section -->
+   <section id="education" class="py-16 sm:py-24 px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto">
+     <h2 class="section-title text-2xl sm:text-3xl observe-anim">Education</h2>
+     <div class="mt-10 relative" id="educationTimeline">
+      <div class="timeline-line"></div>
+     </div>
+    </div>
+   </section><!-- Experience Section -->
+   <section id="experience" class="py-16 sm:py-24 px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto">
+     <h2 class="section-title text-2xl sm:text-3xl observe-anim">Experience</h2>
+     <div class="mt-10 relative" id="experienceTimeline">
+      <div class="timeline-line"></div>
+     </div>
+    </div>
+   </section><!-- Skills Section -->
+   <section id="skills" class="py-16 sm:py-24 px-4 sm:px-6">
+    <div class="max-w-5xl mx-auto">
+     <h2 class="section-title text-2xl sm:text-3xl observe-anim">What I Do</h2>
+     <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="skillsGrid"><!-- Skills populated by JS -->
+     </div>
+    </div>
+   </section><!-- Achievements Section -->
+   <section id="achievements" class="py-16 sm:py-24 px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto">
+     <h2 class="section-title text-2xl sm:text-3xl observe-anim">Achievements &amp; Certifications</h2>
+     <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-5" id="achievementsGrid">
+     </div>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="contact" class="py-16 sm:py-24 px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto">
+     <h2 class="section-title text-2xl sm:text-3xl observe-anim" id="contactHeading">Let's Connect</h2>
+     <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div class="observe-anim stagger-1 justify-center">
+       <p class="text-base" style="color: var(--muted);">Have a project idea, want to collaborate, or just chat? I'd love to hear from you.</p>
+       <div class="mt-6 flex flex-col gap-4">
+        <div class="flex items-center gap-3">
+         <div class="social-icon">
+          <i data-lucide="mail" style="width:18px;height:18px;"></i>
+         </div><span class="text-sm" id="contactEmailDisplay" style="color: var(--muted);">kakula30ss@gmail.com</span>
+        </div>
+        <div class="flex items-center gap-3"><a href="https://in.linkedin.com/in/sanjana-kakula-b3375b327" class="social-icon" target="_blank" rel="noopener noreferrer"><i data-lucide="linkedin" style="width:18px;height:18px;"></i></a> <span class="text-sm" style="color: var(--muted);">LinkedIn Profile</span>
+        </div>
+       </div>
+      </div>
+      <div class="observe-anim stagger-2">
+       <form id="contactForm" class="flex flex-col gap-4">
+        <p id="formSuccess" class="text-sm text-center hidden" style="color: var(--accent);">✨ Message sent! I'll get back to you soon.</p>
+       </form>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="py-8 px-4 text-center" style="border-top: 1px solid var(--border);">
+    <p class="text-sm" style="color: var(--muted);">© 2025 <span id="footerName">Sanjana Kakula</span>. Crafted with ☕ and curiosity.</p>
+   </footer>
+  </div>
+  <script>
+// --- Data ---
+const skills = [
+  {
+    icon: 'figma',
+    title: 'Figma & UI/UX Design',
+    desc: 'Wireframing, prototyping, and designing intuitive user experiences'
+  },
+  {
+    icon: 'bar-chart-3',
+    title: 'Data Analysis & Visualization',
+    desc: 'Excel, Tableau, and Google Analytics for insights and dashboards'
+  },
+  {
+    icon: 'database',
+    title: 'SQL',
+    desc: 'Querying, data extraction, and performance analysis'
+  },
+  {
+    icon: 'code-2',
+    title: 'Python',
+    desc: 'Data processing, analysis, and automation workflows'
+  },
+  {
+    icon: 'kanban-square',
+    title: 'Product & Agile Tools',
+    desc: 'Jira, Confluence with Scrum and Kanban frameworks'
+  },
+  {
+    icon: 'message-square',
+    title: 'Collaboration & Communication',
+    desc: 'Slack and cross-functional coordination in product teams'
+  }
+];
+
+const education = [
+  { year: '2022 – 2027', title: 'M.Sc. in Biological sciences<br>B.E in Civil Engineering', org: 'Birla Institute of Technology and Science, Pilani', desc: '' },
+];
+
+const experience = [
+  {
+    year: 'March 2026 – Present',
+    title: 'Freelance Product Consultant',
+    org: 'Independent',
+    desc: 'Owned end-to-end product strategy for 2 early-stage projects, converting ambiguous user needs into structured PRDs and technical roadmaps. Led design of 4 MVP modules (testing, ATS, frameworks, integrations) with a strong focus on intuitive UX. Explored and prototyped GenAI solutions for automated client support.'
+  },
+  {
+    year: 'October 2025 – February 2026',
+    title: 'Product Management Intern',
+    org: 'Infra IT Solutions',
+    desc: 'Analyzed 500+ network data points using SQL to identify routing inefficiencies, reducing server latency by 18%. Improved internal support workflows by designing a Jira-based system, increasing ticket resolution speed by 25%.'
+  },
+  {
+    year: 'March 2025 – July 2025',
+    title: 'Product Management Intern',
+    org: 'Digitral Pvt Ltd.',
+    desc: 'Led development of a multichannel CPaaS by translating enterprise requirements into 50+ user stories and a data-driven roadmap. Conducted market research and influenced pricing strategy through executive-level presentations. Designed 15+ user flows in Figma, improving onboarding efficiency by 30%.'
+  },
+  {
+    year: 'May 2024 – July 2024',
+    title: 'Website Development Intern',
+    org: 'APGENCO, Andhra Pradesh',
+    desc: 'Directed roadmap and execution of a large-scale website revamp, managing weekly sprints and cross-functional coordination to ensure 100% on-time delivery of all milestones.'
+  }
+];
+
+const projects = [
+  {
+    title: 'MVP | User Behaviour Analysis | Product strategy',
+    desc: 'Built TuneIn, a productivity app focused on improving user focus and consistency using behavioral design, habit tracking, and personalized focus sessions to help users reduce distractions and build sustainable productivity habits. ',
+    tags: ['Python', 'Scikit-learn', 'SQL'],
+    color: 'var(--accent)',
+    image: 'images/TuneIn.png',
+    link: 'https://www.canva.com/design/DAGz6s5mByk/QAO1UyFSnbTH3djdU_LpWg/edit?utm_content=DAGz6s5mByk&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'
+  },
+  {
+    title: 'Product Teardown | UX Analysis | Growth Metrics',
+    desc: 'Performed a product teardown of n8n, analyzing onboarding and user experience, identifying friction points, and recommending improvements to simplify workflows, enhance activation, and increase early-stage user adoption. ',
+    tags: ['Tableau', 'Data Visualization'],
+    color: 'var(--accent2)',
+    image: 'images/n8n.png',
+    link: 'https://www.canva.com/design/DAGvlwf5ZpE/zmKBYLTaelUy2z3lkxVHtA/edit?utm_content=DAGvlwf5ZpE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'
+  },
+  {
+    title: 'Case Study | Product Strategy',
+    desc: 'Explored and analysed how AI can be strategically implemented in customer support, identifying high-impact use cases, optimal integration points, and opportunities to enhance efficiency, user experience, and scalability. ',
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    color: 'var(--accent)',
+    image: 'images/caseStudy.png',
+    link: 'https://www.canva.com/design/DAGuPFS8yKE/yhvzc-XLjSfRAGoMSeUxpA/edit?utm_content=DAGuPFS8yKE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'
+  },
+  {
+    title: 'Case Study |Feature Adoption | User insights ',
+    desc: 'Explored ChatGPT’s voice feature in the Indian market through user research and competitive analysis, identifying adoption barriers and uncovering product opportunities to improve usability, trust, and engagement in voice interactions. ',
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    color: 'var(--accent)',
+    image: 'images/chatgpt.png',
+    link: 'https://www.canva.com/design/DAGuE4sDrOw/4ukqLalpW86TiRXPXhFXFA/edit?utm_content=DAGuE4sDrOw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'
+  },
+  {
+    title: 'AI/ML | MVP| Problem solving  ',
+    desc: 'Built an AI-powered road safety platform using Digital Twin technology, collaborating with a Civil Engineering professor at BITS Pilani to solve highway accident risks through real-time monitoring, enforcement, and emergency response systems. ',
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    color: 'var(--accent)',
+    image: 'images/pitchDeck.png',
+    link: 'https://www.canva.com/design/DAGwfvbRPpE/zYy2q1tPV61lj_CRqD3l0Q/edit?utm_content=DAGwfvbRPpE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'
+  }
+];
+
+const achievements = [
+  {
+    icon: 'award',
+    title: 'Top Fellow – NextLeap Cohort 39',
+    desc: 'Recognized among the top 5% for my final product case study deck'
+  },
+  {
+    icon: 'trending-up',
+    title: 'LinkedIn Personal Brand',
+    desc: 'Built a growing audience by sharing insights on product, tech, and lifestyle'
+  }
+];
+
+// --- Render functions ---
+function renderSkills() {
+  const grid = document.getElementById('skillsGrid');
+  grid.innerHTML = skills.map((s, i) => `
+    <div class="skill-card rounded-2xl p-5 observe-anim stagger-${i + 1}">
+      <div class="skill-icon"><i data-lucide="${s.icon}" style="width:22px;height:22px;"></i></div>
+      <h3 class="font-heading font-semibold text-base mt-3" style="color:var(--text);">${s.title}</h3>
+      <p class="text-sm mt-1" style="color:var(--muted);">${s.desc}</p>
+    </div>
+  `).join('');
+}
+
+function renderTimeline(containerId, data) {
+  const container = document.getElementById(containerId);
+  const line = container.querySelector('.timeline-line');
+  const existing = container.querySelectorAll('.timeline-item');
+  existing.forEach(e => e.remove());
+  data.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = `timeline-item relative pl-12 sm:pl-14 pb-10 observe-anim stagger-${i + 1}`;
+    el.innerHTML = `
+      <div class="timeline-dot"></div>
+      <p class="text-xs font-medium tracking-wider uppercase" style="color:var(--accent);">${item.year}</p>
+      <h3 class="font-heading font-semibold text-base mt-1" style="color:var(--text);">${item.title}</h3>
+      <p class="text-sm font-medium" style="color:var(--accent2);">${item.org}</p>
+      <p class="text-sm mt-2" style="color:var(--muted);">${item.desc}</p>
+    `;
+    container.appendChild(el);
+  });
+}
+
+function renderProjects() {
+  const grid = document.getElementById('projectsGrid');
+  grid.innerHTML = projects.map((p, i) => `
+    <div class="project-card-wrapper observe-anim stagger-${(i % 3) + 1}">
+      <div class="project-card-inner card-surface rounded-2xl overflow-hidden flex flex-col h-full">
+        <!-- Image -->
+        <div class="w-full h-48 overflow-hidden">
+          <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover">
+        </div>
+
+        <!-- Content -->
+        <div class="p-5 flex flex-col justify-between flex-1">
+          <div>
+            <h3 class="font-heading font-semibold text-base mb-3" style="color:var(--text);">${p.title}</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--muted);">${p.desc}</p>
+          </div>
+          <a href="${p.link}" class="btn-outline px-4 py-2 rounded-lg text-xs text-center mt-4 inline-block" target="_blank">View Project →</a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderAchievements() {
+  const grid = document.getElementById('achievementsGrid');
+  grid.innerHTML = achievements.map((a, i) => `
+    <div class="card-surface rounded-2xl p-5 flex gap-4 items-start observe-anim stagger-${i + 1}">
+      <div class="skill-icon flex-shrink-0" style="width:40px;height:40px;">
+        <i data-lucide="${a.icon}" style="width:18px;height:18px;"></i>
+      </div>
+      <div>
+        <h3 class="font-heading font-semibold text-sm" style="color:var(--text);">${a.title}</h3>
+        <p class="text-sm mt-1" style="color:var(--muted);">${a.desc}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+// --- Init all sections ---
+function renderAll() {
+  renderSkills();
+  renderTimeline('educationTimeline', education);
+  renderTimeline('experienceTimeline', experience);
+  renderProjects();
+  renderAchievements();
+  lucide.createIcons();
+  observeAnimations();
+}
+
+// --- Intersection Observer ---
+function observeAnimations() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.observe-anim').forEach(el => obs.observe(el));
+}
+
+// --- Theme ---
+let isDark = false;
+function toggleTheme() {
+  isDark = !isDark;
+  const root = document.documentElement;
+  const body = document.body;
+  const appRoot = document.getElementById('app-root');
+  
+  root.classList.toggle('dark-vars', isDark);
+  body.classList.toggle('dark-vars', isDark);
+  appRoot.classList.toggle('dark-vars', isDark);
+  
+  // Update CSS variables based on theme
+  if (isDark) {
+    const bgColor = '#1a120f';
+    const surfaceColor = '#2a2a3e';
+    const textColor = '#e8e6e3';
+    const accentColor = '#ff7b00';
+    const accent2Color = '#8b83ff';
+    const mutedColor = '#94a3b8';
+    const borderColor = '#2a2a40';
+    const glassColor = 'rgba(15,15,26,0.7)';
+    const navBgColor = 'rgba(15,15,26,0.85)';
+
+    [root, body, appRoot].forEach(el => {
+      el.style.setProperty('--bg', bgColor);
+      el.style.setProperty('--surface', surfaceColor);
+      el.style.setProperty('--text', textColor);
+      el.style.setProperty('--accent', accentColor);
+      el.style.setProperty('--accent2', accent2Color);
+      el.style.setProperty('--muted', mutedColor);
+      el.style.setProperty('--border', borderColor);
+      el.style.setProperty('--glass', glassColor);
+      el.style.setProperty('--nav-bg', navBgColor);
+    });
+    appRoot.style.backgroundColor = bgColor;
+  } else {
+    const bgColor = '#f8f7f4';
+    const surfaceColor = '#ffffff';
+    const textColor = '#1a1a2e';
+    const accentColor = '#e85d04';
+    const accent2Color = '#6c63ff';
+    const mutedColor = '#64748b';
+    const borderColor = '#e2e0dc';
+    const glassColor = 'rgba(255,255,255,0.7)';
+    const navBgColor = 'rgba(248,247,244,0.85)';
+
+    [root, body, appRoot].forEach(el => {
+      el.style.setProperty('--bg', bgColor);
+      el.style.setProperty('--surface', surfaceColor);
+      el.style.setProperty('--text', textColor);
+      el.style.setProperty('--accent', accentColor);
+      el.style.setProperty('--accent2', accent2Color);
+      el.style.setProperty('--muted', mutedColor);
+      el.style.setProperty('--border', borderColor);
+      el.style.setProperty('--glass', glassColor);
+      el.style.setProperty('--nav-bg', navBgColor);
+    });
+    appRoot.style.backgroundColor = bgColor;
+  }
+  
+  document.getElementById('theme-sun').style.display = isDark ? 'none' : 'block';
+  document.getElementById('theme-moon').style.display = isDark ? 'block' : 'none';
+}
+document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+document.getElementById('themeToggle').addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleTheme(); } });
+
+// --- Mobile menu ---
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+document.querySelectorAll('.mobile-nav-link').forEach(link => {
+  link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+});
+
+// --- Contact form ---
+document.getElementById('contactForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.innerHTML = '<span>Sending...</span>';
+  setTimeout(() => {
+    document.getElementById('formSuccess').classList.remove('hidden');
+    e.target.reset();
+    btn.disabled = false;
+    btn.innerHTML = '<span class="flex items-center justify-center gap-2"><i data-lucide="send" style="width:16px;height:16px;"></i> Send Message</span>';
+    lucide.createIcons();
+    setTimeout(() => document.getElementById('formSuccess').classList.add('hidden'), 4000);
+  }, 1200);
+});
+
+// --- Active nav tracking ---
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+const appRoot = document.getElementById('app-root');
+appRoot.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    const top = s.offsetTop - 100;
+    if (appRoot.scrollTop >= top) current = s.getAttribute('id');
+  });
+  navLinks.forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+  });
+});
+
+// --- Element SDK ---
+const defaultConfig = {
+  hero_name: 'Sanjana Kakula',
+  hero_title: 'Product Management | BITS Pilani',
+  hero_tagline: '',
+  about_text: "Hi, I’m Sanjana, an undergrad at BITS Pilani.  I’ve always loved the right aesthetics and a strong vision for how products should feel like…. borderline obsession with perfection not just visually but in how things actually work. This obsession turned me into a product enthusiast! A role that lets me blend creativity, build structure and execute. I love turning ideas into reality, storytelling or just yapping on linkedIn. If you are into creative solutions and always curious, you’re in the right place. Lets connect and create something amazing together. ",
+  contact_email: 'kakula30ss@gmail.com',
+  contact_heading: "Let's Connect",
+  background_color: '#f8f7f4',
+  surface_color: '#ffffff',
+  text_color: '#1a1a2e',
+  accent_color: '#e85d04',
+  secondary_color: '#6c63ff',
+  font_family: 'Sora',
+  font_size: 18
+};
+
+function applyConfig(config) {
+  const c = { ...defaultConfig, ...config };
+  // Text
+  document.getElementById('heroName').textContent = c.hero_name;
+  document.getElementById('heroTitle').textContent = c.hero_title;
+  document.getElementById('heroTagline').textContent = c.hero_tagline;
+  document.getElementById('aboutText').textContent = c.about_text;
+  document.getElementById('contactHeading').textContent = c.contact_heading;
+  document.getElementById('contactEmailDisplay').textContent = c.contact_email;
+  document.getElementById('footerName').textContent = c.hero_name;
+  document.getElementById('nav-logo').textContent = c.hero_name.split(' ').map(w => w[0]).join('');
+
+  // Colors
+  const root = document.getElementById('app-root');
+  root.style.setProperty('--bg', c.background_color);
+  root.style.setProperty('--surface', c.surface_color);
+  root.style.setProperty('--text', c.text_color);
+  root.style.setProperty('--accent', c.accent_color);
+  root.style.setProperty('--accent2', c.secondary_color);
+  root.style.color = c.text_color;
+  root.style.background = c.background_color;
+
+  // Font
+  const customFont = c.font_family || defaultConfig.font_family;
+  const stack = `${customFont}, DM Sans, sans-serif`;
+  document.querySelectorAll('.font-heading, .section-title, [class*="font-heading"]').forEach(el => el.style.fontFamily = stack);
+
+  // Font size
+  const base = c.font_size || defaultConfig.font_size;
+  document.querySelectorAll('p, span:not(.badge span)').forEach(el => {
+    if (el.classList.contains('text-xs')) el.style.fontSize = `${base * 0.75}px`;
+    else if (el.classList.contains('text-sm')) el.style.fontSize = `${base * 0.875}px`;
+    else el.style.fontSize = `${base}px`;
+  });
+}
+
+if (window.elementSdk) {
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => { applyConfig(config); },
+    mapToCapabilities: (config) => ({
+      recolorables: [
+        { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+        { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+        { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+        { get: () => config.accent_color || defaultConfig.accent_color, set: (v) => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
+        { get: () => config.secondary_color || defaultConfig.secondary_color, set: (v) => { config.secondary_color = v; window.elementSdk.setConfig({ secondary_color: v }); } },
+      ],
+      borderables: [],
+      fontEditable: {
+        get: () => config.font_family || defaultConfig.font_family,
+        set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+      },
+      fontSizeable: {
+        get: () => config.font_size || defaultConfig.font_size,
+        set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+      }
+    }),
+    mapToEditPanelValues: (config) => new Map([
+      ['hero_name', config.hero_name || defaultConfig.hero_name],
+      ['hero_title', config.hero_title || defaultConfig.hero_title],
+      ['hero_tagline', config.hero_tagline || defaultConfig.hero_tagline],
+      ['about_text', config.about_text || defaultConfig.about_text],
+      ['contact_email', config.contact_email || defaultConfig.contact_email],
+      ['contact_heading', config.contact_heading || defaultConfig.contact_heading],
+    ])
+  });
+}
+
+// Initial render
+renderAll();
+applyConfig(defaultConfig);
+toggleTheme();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9df38604413f162a',t:'MTc3Mzk5NzE5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
